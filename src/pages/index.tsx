@@ -2,11 +2,22 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  useUser,
+  UserButton,
+} from "@clerk/nextjs";
+ 
+
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
+    const hello = api.example.hello.useQuery({ text: "from tRPC" });
+    const user = useUser();
   return (
     <>
       <Head>
@@ -27,7 +38,17 @@ const Home: NextPage = () => {
             >
               <h3 className="text-2xl font-bold">Founders Club →</h3>
               <div className="text-lg">
-                This is for pimps, who are P I M P dope.
+                    <div>
+                        <SignedIn>
+                            {/* Mount the UserButton component */}
+                            <UserButton />
+                          </SignedIn>
+                          <SignedOut>
+                            {/* Signed out users get sign in button */}
+                            <SignInButton />
+                          </SignedOut>
+                          </div>
+                    
               </div>
             </Link>
             <Link
